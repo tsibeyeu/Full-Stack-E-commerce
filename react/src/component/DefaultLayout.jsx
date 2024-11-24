@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import axiosClient from "../axios-client";
 
 const DefaultLayout = () => {
-    const { user, token,setUser,setToken } = useStateContext();
+    const { user, token, notification, setUser, setToken } = useStateContext();
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -13,16 +13,16 @@ const DefaultLayout = () => {
 
     function handleLogout(e) {
         e.preventDefault();
-        axiosClient.post('/logout').then(()=>{
+        axiosClient.post("/logout").then(() => {
             setUser({});
             setToken(null);
-        })
+        });
     }
-    useEffect(()=>{
-        axiosClient.get('/user').then(({data})=>{
-            setUser(data)
-        })
-    },[])
+    useEffect(() => {
+        axiosClient.get("/user").then(({ data }) => {
+            setUser(data);
+        });
+    }, []);
     return (
         <div id="defaultLayout">
             <aside>
@@ -30,11 +30,18 @@ const DefaultLayout = () => {
                 <Link to="/users">User</Link>
             </aside>
             <div className="content">
+                {notification && (
+                    <div className="notification">{notification}</div>
+                )}
                 <header>
                     <div>Header</div>
                     <div>
                         {user.name}
-                        <a  className="btn-logout" href="#" onClick={handleLogout}>
+                        <a
+                            className="btn-logout"
+                            href="#"
+                            onClick={handleLogout}
+                        >
                             logout
                         </a>
                     </div>
