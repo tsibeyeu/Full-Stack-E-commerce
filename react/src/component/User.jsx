@@ -16,11 +16,12 @@ const User = () => {
         axiosClient
             .get("users")
             .then(({ data }) => {
-                console.log(data.data);
+                console.log("dats data",data.data);
                 setLoading(false);
                 setUser(data.data);
             })
-            .catch(() => {
+            .catch((error) => {
+                console.error("Error fetching users:", error); 
                 setLoading(false);
             });
     }
